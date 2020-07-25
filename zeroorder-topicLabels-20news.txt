@@ -1,0 +1,120 @@
+Topic 0
+          Labels     Score
+2287    the team  5.451503
+308     the team  5.451503
+2563  the helmet  5.402439
+=======================
+Topic 1
+           Labels     Score
+941   gun control  6.505391
+1018      the gun  5.880123
+2671      the gun  5.880123
+=======================
+Topic 2
+           Labels     Score
+665      the moon  5.177251
+1938   the planet  5.164918
+1471  the surface  5.014376
+=======================
+Topic 3
+       Labels     Score
+498   patient  4.163988
+2071    brain  3.805573
+911     brain  3.805573
+=======================
+Topic 4
+                 Labels     Score
+1510    chip encryption  8.356317
+1901  encryption device  7.412092
+2683  government agency  6.366389
+=======================
+Topic 5
+           Labels     Score
+1760  the picture  6.420124
+1945   the family  6.193415
+2962    the color  5.966463
+=======================
+Topic 6
+           Labels     Score
+2218  the benefit  6.505139
+2087  the benefit  6.505139
+1210    processor  5.533729
+=======================
+Topic 7
+          Labels     Score
+764   the engine  6.670243
+496     the bike  6.664844
+2930   the noise  6.513925
+=======================
+Topic 8
+           Labels     Score
+2813    the space  5.649787
+2553  the mission  5.094296
+1782         fuel  4.900955
+=======================
+Topic 9
+                Labels     Score
+2358        disk drive  7.977109
+2617        tape drive  7.684994
+2941  the power supply  5.573091
+=======================
+Topic 10
+             Labels     Score
+1162  point of view  3.624809
+1563   any evidence  3.370551
+69         evidence  3.370551
+=======================
+Topic 11
+             Labels     Score
+1007  way of escape  5.947089
+1818    the soldier  5.453895
+1971    the village  5.441111
+=======================
+Topic 12
+            Labels     Score
+1845  power supply  4.102094
+1978   health care  3.797698
+1931      warranty  3.444514
+=======================
+Topic 13
+                Labels     Score
+2997      time to time  4.828077
+2297  a couple of year  3.147740
+819          that time  3.118750
+=======================
+Topic 14
+             Labels     Score
+372       the price  6.429477
+1737     the manual  5.303421
+2916  the condition  5.239317
+=======================
+Topic 15
+                Labels     Score
+135   thank in advance  4.245049
+2948      mail address  3.620680
+1673     email address  3.567882
+=======================
+Topic 16
+            Labels     Score
+2328    the signal  6.126780
+2281  the material  6.109973
+1534   the printer  6.087442
+=======================
+Topic 17
+         Labels     Score
+250     freenet  4.963973
+1136     netter  4.873144
+2995  the peace  4.437414
+=======================
+Topic 18
+           Labels     Score
+2886    the score  6.694315
+2949  the apostle  6.512846
+1865          boy  5.549389
+=======================
+Topic 19
+          Labels     Score
+1322   the motto  5.405250
+2322   the faith  5.257416
+1171  revelation  5.086384
+=======================
