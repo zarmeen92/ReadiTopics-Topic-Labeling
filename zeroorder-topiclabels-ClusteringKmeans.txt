@@ -1,0 +1,121 @@
+Topic 0
+C:\Users\Zarmeen\Anaconda2\envs\py36\lib\site-packages\ipykernel_launcher.py:18: RuntimeWarning: divide by zero encountered in log
+       Labels     Score
+2726   schism  3.240709
+2335  passage  2.900605
+1642  passage  2.900605
+=======================
+Topic 1
+                      Labels     Score
+941              gun control  3.863974
+2810  law enforcement agency  3.405538
+657                  militia  2.744172
+=======================
+Topic 2
+          Labels     Score
+750   power play  3.407615
+1493  defenseman  2.726862
+73          team  2.678519
+=======================
+Topic 3
+          Labels     Score
+1190  video card  6.421991
+1398         cpu  5.497844
+1491          os  5.497844
+=======================
+Topic 4
+           Labels     Score
+2358   disk drive  6.261851
+2617   tape drive  5.982684
+1365  disk drives  5.657680
+=======================
+Topic 5
+             Labels     Score
+2225  amateur radio  2.952223
+114            sale  2.765084
+1714           sale  2.765084
+=======================
+Topic 6
+         Labels     Score
+1151  satellite  3.411588
+1037  satellite  3.411588
+2128     launch  3.226621
+=======================
+Topic 7
+                      Labels     Score
+2810  law enforcement agency  6.223605
+1510         chip encryption  5.873976
+2913        the wiretap chip  5.422757
+=======================
+Topic 8
+             Labels     Score
+109          access  3.847368
+1835  communication  3.193028
+720   communication  3.193028
+=======================
+Topic 9
+      Labels     Score
+2562  goalie  3.694069
+1246  hitter  3.445532
+2549    mask  3.230216
+=======================
+Topic 10
+           Labels    Score
+778       printer  4.59367
+1534  the printer  4.59367
+1739      printer  4.59367
+=======================
+Topic 11
+               Labels     Score
+1960        conductor  2.563408
+1798  allocation unit  2.435943
+1150           wiring  2.092929
+=======================
+Topic 12
+              Labels     Score
+124   stephanopoulos  3.427433
+1226       anonymity  2.612884
+1978     health care  2.523325
+=======================
+Topic 13
+         Labels     Score
+1512     pixels  3.361407
+932   the image  3.261388
+225       image  3.261388
+=======================
+Topic 14
+         Labels     Score
+2072  swap file  5.755863
+914       oname  5.517439
+2719  info file  5.091295
+=======================
+Topic 15
+         Labels     Score
+2924  objective  4.085042
+296    morality  4.032469
+1703      moral  3.814940
+=======================
+Topic 16
+          Labels     Score
+761   homosexual  3.991610
+1425     consent  3.924406
+2100     slavery  3.783664
+=======================
+Topic 17
+                         Labels     Score
+2533              turkish plane  4.674509
+1007              way of escape  3.561826
+1069  the work of extermination  3.286685
+=======================
+Topic 18
+                  Labels     Score
+2147  the window manager  5.608054
+1520      window manager  5.608054
+798               widget  3.458380
+=======================
+Topic 19
+       Labels     Score
+283   atheism  2.960327
+1270  atheist  2.816743
+215   atheist  2.816743
+=======================
