@@ -1,0 +1,28 @@
+
+My reponse:
+Cluster 0:  ترکی شام  کارروائی
+
+
+Cluster 1: لاہور میں ڈینگی
+
+Cluster 2   ڈینگی کی احیتاط  
+
+Cluster 3   سی پیک کا قیام
+
+Cluster 4: سی پیک (vague cluster)
+
+Cluster 5: ضلعی انتظامیہ
+
+Cluster 6: فیصل آباد میں ڈینگی
+
+Cluster 7: اظہار یکجہتی کیلئے ریلی
+
+Cluster 8: سری لنکن ٹیم 
+
+Cluster 9:  ڈینگی وائرس کی روک تھام
+
+Cluster 10: ڈینگی بے قابو
+
+Cluster 11:ڈینگی کا خاتمہ
+
+Cluster 12: ڈینگی کی تازہ ترین صورتحال

@@ -1,0 +1,38 @@
+Cluster 0
+Turkey ki shaam mein fauji karwai
+
+Cluster 1
+Dengue k hawale se DC lahore k daurey
+
+Cluster 2
+Dengue se ehtiaat
+
+Cluster 3
+CPEC se rozgaar k mawaqe 
+
+Cluster 4
+CPEC 
+
+Cluster 5
+Zila e Intazamia ne dengue report jari kr di
+
+Cluster 6
+Dengue cases saamne aney bad muqadmaat darj
+
+Cluster 7
+Kashmirion se izhaar e yakyehti
+
+Cluster 8
+Pakistan aur srilanka k darmiaan cricket series
+
+Cluster 9
+Dengue cases mein izafa
+
+Cluster 10
+Dengue mareezo ki ta'adad mein izafa
+
+Cluster 11
+Dengue k khatme k liye ehtiaat e tadabeer
+
+Cluster 12
+Dengue ki taaza surtehaal ka jaiza
