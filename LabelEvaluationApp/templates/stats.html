@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faculty Evaluation Comments Analysis</title>
+   <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/datepicker3.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/bootstrap-table.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+  <!--Icons-->
+  <script src="{{ url_for('static', filename='js/lumino.glyphs.js') }}"></script>
+
+  <!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+		<img src="{{ url_for('static', filename='img/logo1.png') }}" style="float:left"/>
+		<img src="{{ url_for('static', filename='img/logo.png') }}" style="float:right;width:150px;height:50px;margin-top:15px;"/>
+        <a class="navbar-brand" href="/statistics" style="margin-top:20px;margin-left:10px;"><span>Faculty Evaluation Comments </span>Analysis</a>
+
+      </div>
+
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <!--/.sidebar
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+
+		<ul class="nav menu">
+			<li><a href="{{ url_for('index') }}"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Review Analyser</a></li>
+      <li class="active"><a href="{{ url_for('restaurant_statistics') }}"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Statistics</a></li>
+		</ul>
+
+	</div><!--/.sidebar-->
+
+  <div class="col-sm-offset-1">
+
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h6 class="page-header"></h6>
+		<p>This tool analyzes the feedback given by students towards the end of a course. It not only classifies each feedback as positive, negative or neutral but also identifies the main aspects captured in each comment.
+		Currently, the tool can identify the following aspects: Knowledge (of a teacher), Presentation (Class Delivery and Control), Counselling, Course Quality and Grading. If a feedback contains multiple aspects then the tool can identify all of them and their respective polarity.
+		<br/>To use the tool, copy the end-of the-course feedback in a text file and upload it via the <b>“Choose File”</b> button. Once the file is specified, click on the Submit button and the tool will display the distribution of comments, their respective polarities and Word Cloud. </p>
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>File input</label>
+            <input type="file" name="file">
+          </div>
+
+          <button type="submit" class="btn btn-primary"> Submit </button>
+        </form>
+      </div>
+      <br />
+      <span>Execution time : {{time_exe}}</span>
+    </div>
+    <!--/.row-->
+
+    {% if res == "yes" %}
+
+    <div class="row">
+
+    </div>
+
+    <span>Total reviews: {{total_reviews}}<span>
+        <br />
+        <br />
+        <br />
+
+        <!-- Tabs -->
+        <div class="tab">
+          <button class="btn tablinks" onclick="openTab(event, 'Summary')">Summary</button>
+          <button class="btn tablinks" onclick="openTab(event, 'Distribution')">Graphical View</button>
+          <button class="btn tablinks" onclick="openTab(event, 'WCloud')">Word Cloud</button>
+          <button class="btn tablinks" onclick="openTab(event, 'Review')">Review Analysis</button>
+
+        </div>
+
+        <div id="Summary" class="tabcontent">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">Summary of Aspects</div>
+                <div class="panel-body">
+                  <div class="outer">
+                    {% for index,post in category.iterrows() %}
+                    {% if  post['sentiment.positive']+ post['sentiment.negative']+ post['sentiment.neutral'] >= 0.3*total_reviews%}
+                    <div id="container-{{post['category']}}" class="chart-container"></div>
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if res == "yes" %}
+
+        <div id="Distribution" class="tabcontent">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">Distribution of Sentiments</div>
+                <div class="panel-body">
+                  <div id="canvas-wrapper">
+                    <canvas class="main-chart" id="chart" height="200" width="600"></canvas>
+                    <div id="legend"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.row-->
+        <div id="WCloud" class="tabcontent">
+        <div class="row">
+    			<div class="col-lg-12">
+    				<div class="panel panel-default">
+    					<div class="panel-heading">Word Cloud</div>
+    					<div class="panel-body">
+    						<div class="canvas-wrapper" id="wcloud">
+
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    		</div><!--/.row-->
+    		</div>
+
+        <div id="Review" class="tabcontent">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">Review Analysis Result</div>
+                <div class="panel-body">
+                  <table class="table table-hover table-bordered">
+                    <thead>
+                      <thead>
+                        <tr>
+                          <th style="width: 10%">Review ID </th>
+                          <th style="width: 60%">Text</th>
+                          <th style="width: 30%">Category</th>
+                        </tr>
+
+                      </thead>
+                    <tbody>
+                      {% for index,post in finalsf.iterrows() %}
+                      <tr>
+                        <td>{{ post['review_id'] }}</td>
+                        <td>{{ post['text'] }}</td>
+                        <td>
+                          <table class="table table-hover table-bordered">
+                            <tbody>
+                              {% for x in post['merged'].split(';') %}
+                              {% if  x.find("positive") != -1 %}
+                              <tr class="success">
+                                <td>{{x}}
+                                </td>
+                              </tr>
+                              {% endif %}
+                              {% if  x.find("negative") != -1 %}
+                              <tr class="danger">
+                                <td>{{x}}
+                                </td>
+                              </tr>
+                              {% endif %}
+                              {% if  x.find("neutral") != -1 %}
+                              <tr class="info">
+                                <td>{{x}}
+                                </td>
+                              </tr>
+                              {% endif %}
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </td>
+
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+				  <br />
+				  <div style="text-align:right">
+				  <a href="#"><button class='btn btn-default'>Download Predictions</button></a>
+				  </div>
+				  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {% endif %}
+
+
+  </div>
+<div class="navbar navbar-fixed-bottom" style="background-color:#000">
+<center>
+   Contact: Zarmeen Nasim, Sajjad Haider <br/>
+   Email: {znasim,sahaider}@iba.edu.pk
+   </center>
+   </div>
+
+  <script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/easypiechart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/easypiechart-data.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/d3.v3.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/d3.layout.cloud.js') }}"></script>
+  <script>
+    var color = d3.scale.category20();
+
+    !function ($) {
+
+      $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+        $(this).find('em:first').toggleClass("glyphicon-minus");
+      });
+      $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+      //drawChart(barData);
+      if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+      if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+
+    var canvas_html = '<canvas id="canvas" height=100%></canvas><div id="legend"><ul class="bar-legend"><li><span style="background-color:rgba(217,239,150,0.8)"></span>positive</li><li><span style="background-color:rgba(255,170,170,0.8)"></span>negative</li><li><span style="background-color:rgba(151,187,205,0.2)"></span>neutral</li></ul></div>';
+
+   /* var drawChart = function (data) {
+      // reinit canvas
+      $('#canvas-wrapper').html(canvas_html);
+
+      // redraw chart
+      var ctx = document.getElementById("canvas").getContext("2d");
+      window.myBar = new Chart(ctx).Bar(barData, {
+        responsive: true
+      });
+    };*/
+
+	// word cloud code
+   {% if res == "yes" %}
+    var frequency_list = [];
+    {% for index,key in freqCounter.iterrows() %}
+                frequency_list.push({text: '{{key['words']}}', size:  20 + {{key['count']}} * 10})
+				console.log('inside frre')
+				console.log(frequency_list)
+
+    {% endfor %}
+	alert('frequency_list')
+	console.log(frequency_list)
+    //var color = d3.scale.linear()
+    //        .domain([0,1,2,3,4,5,6,10,15,20,100])
+   //         .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+    d3.layout.cloud().size([800, 300])
+            .words(frequency_list)
+            .rotate(0)
+            .fontSize(function(d) { return d.size; })
+            .on("end", draw)
+            .start();
+
+    function draw(words) {
+        d3.select("div#wcloud").append("svg")
+                .attr("width", 850)
+                .attr("height", 350)
+                .attr("class", "wordcloud")
+                .append("g")
+                // without the transform, words words would get cutoff to the left and top, they would
+                // appear outside of the SVG area
+                .attr("transform", "translate(320,200)")
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", function(d) { return d.size + "px"; })
+                .style("fill", function(d, i) {
+                 /* if(d.sentiment == "positive"){
+                      return "#2ca02c"
+                  }
+
+                  else if(d.sentiment == "negative"){
+                      return "#e20f0f"
+                  }
+
+                  else{
+                    return "#9edae5"
+                  }*/
+
+                  return color(i);
+
+                })
+                .attr("transform", function(d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .text(function(d) { return d.text; });
+    }
+    {% endif %}
+
+    function openTab(evt, tabName) {
+
+
+
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      ;
+
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+     // drawChart(barData);
+
+
+    }
+
+
+
+    {% if res == "yes" %}
+
+	var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+	  tabcontent[0].style.display = "block";
+	// HighChart
+    var chartype = {
+      renderTo: 'canvas-wrapper',
+      type: 'column',
+      options3d: {
+        enabled: true,
+        alpha: 15,
+        beta: 5,
+        depth: 50,
+        viewDistance: 25
+      }
+    }
+    var chartplotoptions = {
+      column: {
+        depth: 25
+      }
+    }
+
+    var myChart = Highcharts.chart({
+        chart: chartype,
+        plotOptions: chartplotoptions,
+        title: {
+            text: 'Distribution'
+        },
+        xAxis: {
+            categories: [{% for item in category['category'] %} "{{item}}", {% endfor %}]
+        },
+
+        series: [{
+            name: 'Positive',
+            data: [{% for item in category['sentiment.positive'] %} {{ item }}, {% endfor %}],
+            color: "#d9ef96"
+        }, {
+            name: 'Negative',
+            data: [{% for item in category['sentiment.negative'] %} {{ item }}, {% endfor %}],
+            color: "#ffaaaa"
+        }, {
+            name: 'Neutral',
+            data: [{% for item in category['sentiment.neutral'] %} {{ item }}, {% endfor %}],
+            color: "#97bbcd"
+        }]
+    });
+
+	 var gaugeOptions = {
+
+      chart: {
+        type: 'solidgauge'
+      },
+
+      title: null,
+
+      pane: {
+        center: ['50%', '85%'],
+        size: '140%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+          backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+          innerRadius: '60%',
+          outerRadius: '100%',
+          shape: 'arc'
+        }
+      },
+
+      tooltip: {
+        enabled: false
+      },
+
+      // the value axis
+      yAxis: {
+        stops: [
+          [0.1, '#55BF3B'], // green
+          [0.5, '#DDDF0D'], // yellow
+          [0.9, '#DF5353'] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        title: {
+          y: -70
+        },
+        labels: {
+          y: 16
+        }
+      },
+
+      plotOptions: {
+        solidgauge: {
+          dataLabels: {
+            y: 5,
+            borderWidth: 0,
+            useHTML: true
+          }
+        }
+      }
+    };
+
+    {% for index,post in category.iterrows() %}
+    // The speed gauge
+	{% if  post['sentiment.positive']+ post['sentiment.negative']+ post['sentiment.neutral'] >= 0.3*total_reviews%}
+    {% set total = post['sentiment.positive']+post['sentiment.negative']+post['sentiment.neutral'] %}
+    {% set posVal =  post['sentiment.positive'] - post['sentiment.negative'] %}
+    {% set negVal =  post['sentiment.negative'] - post['sentiment.positive'] %}
+    {% if posVal > negVal %}
+      {% set data, polarity = post['sentiment.positive'], 'Positive' %}
+    {% elif negVal > posVal %}
+      {% set data, polarity = post['sentiment.negative'], 'Negative' %}
+    {% else %}
+      {% set data, polarity = total/2, 'Neutral' %}
+    {% endif %}
+
+    {% set data = (data * 100/total)|round|int %}
+
+    var chartSpeed = Highcharts.chart('container-{{post['category']}}', Highcharts.merge(gaugeOptions, {
+      yAxis: {
+        {% if polarity == 'Positive' %}
+        stops: [
+          [0.1, '#90EC14'],
+          [0.5, '#59EC14'],
+          [0.9, '#14EC28']
+        ],
+        {% elif polarity == 'Negative' %}
+        stops: [
+          [0.1, '#f06969'],
+          [0.9, '#fc0303']
+        ],
+        {% else %}
+        stops: [
+          [0.1, '#0DA4EF'],
+        ],
+        {% endif %}
+        min: 0,
+        max: 100,
+        title: {
+          text: "{{post['category']}}"
+        }
+      },
+
+      credits: {
+        enabled: false
+      },
+
+
+      series: [{
+        name: 'Percentage',
+
+        data: [{{ data }}],
+        dataLabels: {
+          format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+            '<span style="font-size:12px;color:silver">% {{polarity}}</span></div>'
+        },
+        tooltip: {
+          valueSuffix: 'percent'
+        }
+      }]
+
+    }));
+	{% endif %}
+  {% endfor %}
+    //End HighChart
+
+
+
+    {% endif %}
+
+
+    
+  </script>
+
+</html>
