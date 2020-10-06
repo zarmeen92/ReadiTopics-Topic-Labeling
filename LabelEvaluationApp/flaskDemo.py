@@ -1,7 +1,6 @@
 import warnings
 warnings.filterwarnings("ignore")
 import time
-import NewsLDA
 import uuid
 from flask import Flask,abort,jsonify,request,redirect,render_template,url_for
 from werkzeug.utils import secure_filename
@@ -18,10 +17,11 @@ cluster_lbl= dataset['Cluster']
 def index():
 	row = dataset.iloc[0]
 	top10terms = row['Top10Terms'].split(' ')
+	docids = range(0,5)
 	top5docs = row['Top5Docs'].split('$')
 	return render_template('index.html',
 						   title='Home',clusterid='0',
-						   top10terms=top10terms,top5docs=top5docs,
+						   top10terms=top10terms,top5docs=zip(docids,top5docs),
 						   text = '',cluster_lbl= cluster_lbl,time_exe = '')
 
                            
@@ -30,46 +30,47 @@ def cluster_details(clusterid):
     #do your code here
 	row = dataset.iloc[int(clusterid)]
 	top10terms = row['Top10Terms'].split(' ')
+	docids = range(0,5)
 	top5docs = row['Top5Docs'].split('$')
 	return render_template('index.html',
 						   title='Home',clusterid=clusterid,
-						   top10terms=top10terms,top5docs=top5docs,
+						   top10terms=top10terms,top5docs=zip(docids,top5docs),
 						   text = '',cluster_lbl= cluster_lbl,time_exe = '')
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
+#@app.route('/upload', methods=['POST'])
+#def upload_file():
 	# check if the post request has the file part
-	if 'file' not in request.files:
-	  ##print 'No file part'
-	  return redirect('/')
-	file = request.files['file']
-	# if user does not select file, browser also
-	# submit a empty part without filename
-	if file.filename == '':
-	  ##print 'No selected file'
-	  return redirect('/')
-	if file and allowed_file(file.filename):
-		filename = secure_filename(file.filename)
-		unique_filename = str(uuid.uuid4())  
+	# if 'file' not in request.files:
+	  #print 'No file part'
+	  # return redirect('/')
+	# file = request.files['file']
+	#if user does not select file, browser also
+	#submit a empty part without filename
+	# if file.filename == '':
+	  #print 'No selected file'
+	  # return redirect('/')
+	# if file and allowed_file(file.filename):
+		# filename = secure_filename(file.filename)
+		# unique_filename = str(uuid.uuid4())  
 			
-		f = request.files['file']
+		# f = request.files['file']
 		
-		text = f.read().decode("utf-8")
-		print(text)
+		# text = f.read().decode("utf-8")
+		# print(text)
 		
-		start = time.time()
-		dataset,cluster_lbl = NewsLDA.apply_kmeans(text)
-		end = time.time()
-		if len(dataset.index) == 0:
-			res = "no"
-		else:
-			res = "yes"
+		# start = time.time()
+		# dataset,cluster_lbl = NewsLDA.apply_kmeans(text)
+		# end = time.time()
+		# if len(dataset.index) == 0:
+			# res = "no"
+		# else:
+			# res = "yes"
 			
-		return render_template('index.html',title='Clustering',cluster_lbl = cluster_lbl,finalsf=dataset,res = res,time_exe = end-start)
+		# return render_template('index.html',title='Clustering',cluster_lbl = cluster_lbl,finalsf=dataset,res = res,time_exe = end-start)
 
             
 
