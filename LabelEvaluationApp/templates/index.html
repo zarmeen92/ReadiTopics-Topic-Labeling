@@ -84,7 +84,7 @@ font-size: large;
 		</div><!-- /.container-fluid -->
 	</nav>
 		
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+	<!-- <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		
 		<ul class="nav menu">
 		{% for x in cluster_lbl %}
@@ -92,9 +92,9 @@ font-size: large;
 		{% endfor %}
 		</ul>
 
-	</div><!--/.sidebar-->
+	</div><!--/.sidebar--> 
 		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+	<div class="container main">			
 	
 		
 		<div class="row">
@@ -144,125 +144,147 @@ font-size: large;
         
 				</div><!-- /.col-->
 		</div><!-- /.row -->
-
-    {% if res == "yes" %}
-		<div class="row">
-			<div class="col-lg-12">
-				<h3 class="page-header">Review Summary</h3>
-			</div>
-		</div><!--/.row-->
-    <div class="row">
-             
-                      {% for index,post in summary.iterrows() %}
-                      {% if  post['polarity'] == "positive"%}
-                         <div class="col-xs-12 col-md-6 col-lg-3">
-                              <div class="panel panel-green panel-widget ">
-                                <div class="row no-padding">
-                                  <div class="col-sm-3 col-lg-5 widget-left">
-                                   <i class="fa fa-smile-o" style="font-size:48px;color:white"></i>
-                                  </div>
-                                  <div class="col-sm-9 col-lg-7 widget-right">
-                                    <div class="large">{{ post['category'] }}</div>
-                                    <div class="text-muted">{{ post['polarity'] }}</div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
-                      {% endif %}    
-                       {% if  post['polarity'] == "negative"%}
-                        <div class="col-xs-12 col-md-6 col-lg-3">
-                              <div class="panel panel-red panel-widget ">
-                                <div class="row no-padding">
-                                  <div class="col-sm-3 col-lg-5 widget-left">
-                                   <i class="fa fa-frown-o" style="font-size:48px;color:white"></i>
-                                  </div>
-                                  <div class="col-sm-9 col-lg-7 widget-right">
-                                    <div class="large">{{ post['category'] }}</div>
-                                    <div class="text-muted">{{ post['polarity'] }}</div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div> 
-                       {% endif %}
-                       {% if  post['polarity'] == "neutral"%}
-                         <div class="col-xs-12 col-md-6 col-lg-3">
-                              <div class="panel panel-blue panel-widget ">
-                                <div class="row no-padding">
-                                  <div class="col-sm-3 col-lg-5 widget-left">
-                                     <i class="fa fa-meh-o" style="font-size:54px;color:white"></i>
-                                  </div>
-                                  <div class="col-sm-9 col-lg-7 widget-right">
-                                    <div class="large">{{ post['category'] }}</div>
-                                    <div class="text-muted">{{ post['polarity'] }}</div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
-                       {% endif %}
-                      {% else %}
-                      
-                      {% endfor %}
-                   
-              </div>
-    <div class="row">
+	<div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
-                    <div class="panel-heading">Review Analysis Result</div>
+                    <div class="panel-heading">Suggested Labels</div>
                     <div class="panel-body">
+					<form action="{{ url_for('submitdata') }}" method="post" enctype="multipart/form-data">
                     <table class="table table-hover table-bordered">
                           <thead>
-                          <thead>
                               <tr>
-                                <th>Text</th>
-                                <th>Category</th>
-                                <th>Polarity</th>
+                                <th>Method</th>
+                                <th>Label</th>
+                                <th>Completeness</th>
+								<th>Relevance</th>
+								<th>Correctness</th>
                               </tr>
 
                           </thead>
                       <tbody>
-                      {% for index,post in ans.iterrows() %}
-                      {% if  post['polarity'] == "positive"%}
-                          <tr class="success">
-                            <td>{{ post['text'] }}</td>
-                            <td>{{ post['category'] }}</td>
-                            <td> {{ post['polarity'] }}</td>
-                          </tr>
-                      {% endif %}    
-                       {% if  post['polarity'] == "negative"%}
-                          <tr class="danger">
-                            <td>{{ post['text'] }}</td>
-                            <td>{{ post['category'] }}</td>
-                            <td> {{ post['polarity'] }}</td>
-                          </tr>    
-                       {% endif %}
-                       {% if  post['polarity'] == "neutral"%}
-                          <tr class="info">
-                            <td>{{ post['text'] }}</td>
-                            <td>{{ post['category'] }}</td>
-                            <td> {{ post['polarity'] }}</td>
-                          </tr>
-                       {% endif %}
-                      {% else %}
+                      <tr>
+                            <td>Method 1</td>
+                            <td>{{row['Zero-Order']}}</td>
+                            <td>
+								<select id="completeness_method1" name="completeness_method1">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="relevance_method1" name="relevance_method1">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="correctness_method1" name="correctness_method1">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
                       </tr>
-                      <tr><td colspan="4"></td>
-                      {% endfor %}
+                      <tr>
+                            <td>Method 2</td>
+                            <td>{{row['M-Order']}}</td>
+                            <td>
+								<select id="completeness_method2" name="completeness_method2">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="relevance_method2" name="relevance_method2">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="correctness_method2" name="correctness_method2">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+                      </tr>                      
+					  <tr>
+                            <td>Method 3</td>
+                            <td>{{row['T-Order']}}</td>
+                            <td>
+								<select id="completeness_method3" name="completeness_method3">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="relevance_method3" name="relevance_method3">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="correctness_method3" name="correctness_method3">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
                       </tr>
-                      </tbody>
+					  <tr>
+                            <td>Method 4</td>
+                            <td>{{row['ProposedMethod']}}</td>
+                            <td>
+								<select id="completeness_method4" name="completeness_method4">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="relevance_method4" name="relevance_method4">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+							<td>
+								<select id="correctness_method4" name="correctness_method4">
+									<option value="3">3-Best</option>
+									<option value="2">2-Good</option>
+									<option value="1">1-Average</option>
+									<option value="0">0-Worst</option>
+							  </select>
+							</td>
+                      </tr>
+                    </tbody>
                     </table>
+					<input type="hidden" name="clusterid_current" value={{clusterid}}>
+					<button type="submit" class="btn btn-primary"> Submit </button>
+					</form>
                   </div>
                 </div>
                 </div>
               </div>
-       {% endif %}
-				{% if res == "no" %}
-          <div class="row">
-            <div class="col-lg-12">
-              <h3 class="page-header">Review Summary</h3>
-              <span>Sorry! System is unable to identify aspects in the above review<span>
-            </div>
-          </div>
-          {% endif %}
-              
+       
+    
               
 	</div>	<!--/.main-->
 
